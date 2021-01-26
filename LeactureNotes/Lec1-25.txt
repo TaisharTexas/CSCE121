@@ -1,0 +1,54 @@
+# Logical Operators
+
+### Declaration
+  bool test = true; //outputs as 1 or a nonzero value
+  bool test2 = false: //always outputs as 0
+
+std::boolaplha //can evaluate any number and return true for all nonzero numbers and false for zero
+
+
+### If-Else statements
+if (condition){
+    code;
+}
+else if (condition) {
+    code;
+}
+else {
+    code;
+}
+
+### Switch statements
+switch (letter) {
+    letter:
+      code;
+      break;
+
+    letter:
+      code;
+      break;
+
+    default:
+      code;
+      break;
+}
+
+### While loops
+while (condition) {
+    code;
+}
+
+### Do-While loop
+// Runs at least once. After the first loop, checks the condition to see if it runs again
+do {
+    code;
+}
+while (condition);
+
+### Jump statements
+// jump statements let you jump around the program
+
+break statement: used in loops to end a loop without checking the condition
+continue statement: used in loops to skip the code in the rest of the loop and start the next loop
+return statement: technically a jump statement, used at the end of a statement to return the result of the function
+goto statement: never use these, used to skip to a certain section of code -- ruins the flow of the code logic and can introduce bad initialization bugs

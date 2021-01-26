@@ -1,0 +1,29 @@
+C++ Syntax
+
+Command Line Basics:
+  Ubuntu for Windows: /mnt/c/Users/Andrew/code
+
+Every c++ program has a main function. Without a main function, the program can't start.
+
+#include <iostream>
+  inserts the code from the iostream library into the current file (like an import statement)
+
+int main(){}
+  main always returns an int
+
+iostream gives access to cout and endl and cin
+
+
+
+
+  initializes cout to output to the console -- says to use the cout from the namespace std
+  will need to point to std every time cout is used
+
+using std::cout, std::endl, std::cin;
+  done once and now cout and endl and cin can be used without point to std every time.
+
+return 0;
+  indicates if the program finished or not. Not required for main.
+
+cout << "bool: " << boolaplha << true;
+  boolaplha tells cout to print "true" or "false" instead of 0 or nonzero
