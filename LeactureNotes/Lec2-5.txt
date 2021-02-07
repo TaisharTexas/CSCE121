@@ -1,0 +1,13 @@
+Rubber Duck debugging:
+explaining each line of the program to someone (or a rubber duck). Going through each line out loud will help you better see errors and typos.
+
+
+check if an INT looks like a mountain (ie, increasing and then decreasing symmetrically --> 1 2  5 7 6 4 3 2)
+- need to extract digits from an INT
+- compare consecutive digits
+- identify when the peak has been reached
+- possible issues:
+    no peak (always increasing or decreasing)
+    how is it defined for less than 3 digits
+ use number slicing
+ 

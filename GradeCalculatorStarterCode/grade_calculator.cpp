@@ -23,8 +23,7 @@ void print_results(double exam_average,
                    double lw_average,
                    double engagement,
                    double weighted_total,
-                   char final_letter_grade,
-                   double numOfExams);
+                   char final_letter_grades);
 
 // YOU ARE NOT EXPECTED TO UNDERSTAND THIS ONE... YET
 // extract the category and score from the line
@@ -47,6 +46,7 @@ int main() {
     double labwork = 0;
     double studentEngagement = 0;
     int numExams = 0;
+    int finalExam = 1;
     int numHW = 0;
     int numLW = 0;
 
@@ -65,7 +65,6 @@ int main() {
             ++numExams;
         } else if (category == "final-exam") {
             final_exam = score;
-            ++numExams;
         } else if (category == "hw") {
             homework += score;
             ++numHW;
@@ -83,16 +82,31 @@ int main() {
     }
 
     // TODO(student): compute component averages
-    double exam_average = ((exam + final_exam) / numExams);  //40% of grade
+    double exam_average = ((exam + final_exam) / (numExams + finalExam));
+    //40% of grade
     if (final_exam > exam_average) {
         exam_average = final_exam;
     }
-    double hw_average = (homework / numHW);  //40% of grade
-    double lw_average = (labwork / numLW) * 100;  //10% of grade
-    double engagement = max(0.0, min(studentEngagement, 100.0)); //max 100 pts, 10% of grade
+    double hw_average;  //40% of grade
+    if (numHW != 0){
+        hw_average = (homework / numHW);
+    } else{
+        hw_average = 0;
+    }
+    double lw_average;  //10% of grade
+    if (numLW != 0){
+        lw_average = (labwork / numLW) * 100;
+    } else{
+        lw_average = 0;
+    }
+    double engagement = max(0.0, min(studentEngagement, 100.0));
+    //max 100 pts, 10% of grade
 
     // TODO(student): compute weighted total of components
-    double weighted_total = ((exam_average * .4) + (hw_average * .4) + (lw_average / 10) + (engagement * .1));
+    double weighted_total = ((exam_average * .4) +
+                              (hw_average * .4) +
+                              (lw_average / 10) +
+                              (engagement * .1));
 
     // TODO(student): compute final letter grade
     char final_letter_grade = 'X';
@@ -107,8 +121,7 @@ int main() {
     }
     else if (weighted_total >= 60){
         final_letter_grade = 'D';
-    }
-    else{
+    } else{
         final_letter_grade = 'F';
     }
 
@@ -149,21 +162,18 @@ void get_category_and_score(
     }
 }
 
-
 void print_results(
     double exam_average,
     double hw_average,
     double lw_average,
     double engagement,
     double weighted_total,
-    char final_letter_grade,
-    double numOfExams) {
+    char final_letter_grade) {
     cout << "summary:" << endl;
     cout << "      exam average: " << exam_average << endl;
     cout << "        hw average: " << hw_average << endl;
     cout << "        lw average: " << lw_average << endl;
     cout << "        engagement: " << engagement << endl;
-    cout << "      num of exams: " << numOfExams << endl;
     cout << "     ---------------" << endl;
 
     cout << "    weighted total: " << weighted_total << endl;

@@ -1,0 +1,14 @@
+Integer slicing
+- dividing a number by 10 over and over until the number is zero. used to find out how many digits are in the number.
+
+Macros
+- macro names are written in ALL CAPS
+- assert() -- if true, the code continues and if false, terminates the program.
+ie, define PI = 3.14159
+ie, define DEBUG(X) std::cout << "(" << __FUNCTION__ << ":" << __LINE__ << ") [DEBUG] " << endl;
+
+Try-Catch Blocks
+- try and run the Try-block without worrying about errors. If errors are thrown, catch them and don't terminate the program and execute the Catch block.
+- if there's no catch block, the Try block exits and the program continues
+- catch(int exception) -- only catches errors of the int type (like an invalid number or reference to a number)
+- can have multiple catch blocks for different data types to handle different possible errors (int, char, etc)

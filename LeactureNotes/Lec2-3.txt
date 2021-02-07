@@ -1,0 +1,3 @@
+Throw statement -- if(condition){throw exception}
+    throw std::runtime_error(some_value);
+        generally, "some_value" is a string literal
