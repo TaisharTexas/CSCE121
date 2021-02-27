@@ -27,7 +27,7 @@ char decimal_to_digit(unsigned int decimal)
 		}
 		else
 		{
-				return (static_cast<char>(decimal));
+				return (decimal + '0');
 		}
 
 }
@@ -35,30 +35,36 @@ char decimal_to_digit(unsigned int decimal)
 
 string trim_leading_zeros(string num) {
 
+		// cout << "started trim"<< endl;
 		string nonZeroNum;
 		string finalNum;
 		bool firstNum = false;
 		bool isNegative = false;
 		int theLength = num.length();
 
-		for(int i = 0; i <= theLength; i++)
+		// cout << "checkpoint" << endl;
+
+		for(int i = 0; i < theLength; i++)
 		{
-				if(i == 0 && num[i] == '-')
+				if(i == 0 && num.at(i) == '-')
 				{
+						// cout << "case 1" << endl;
 						isNegative = true;
 				}
-				if ((!(num[i] == '0')) && (!firstNum))
+				if ((!(num.at(i) == '0')) && (!firstNum))
 				{
-						nonZeroNum += num[i];
+						// cout << "case 2" << endl;
+						nonZeroNum += num.at(i);
 						firstNum = true;
 				}
 				else if(firstNum)
 				{
-					nonZeroNum += num[i];
+						// cout << "case 3" << endl;
+						nonZeroNum += num.at(i);
 				}
 		}
 
-		cout << "nonZeroNum: " << nonZeroNum << endl;
+		// cout << "nonZeroNum: " << nonZeroNum << endl;
 		if(isNegative)
 		{
 				finalNum += '-';
@@ -68,31 +74,62 @@ string trim_leading_zeros(string num) {
 		{
 				finalNum += nonZeroNum;
 		}
-		cout << "finalNum:   " << finalNum << endl;
+		// cout << "finalNum:   " << finalNum << endl;
     return finalNum;
 
 }
 
 
-string add(string lhs, string rhs) {
+string add(string lhs, string rhs)
+{
     // TODO(student): implement
-		int leftNum;
-		int rightNum;
-		int sumNumber;
-		string outputVal;
-		try
+		string finalNum = "";
+		cout << "STARTED" << endl;
+		string leftNum = trim_leading_zeros(lhs);
+		// cout << "left zero trimmed" << endl;
+		string rightNum = trim_leading_zeros(rhs);
+		// cout << "right zero trimmed" << endl;
+		int leftLength = leftNum.length();
+		int rightLength = rightNum.length();
+		cout << " left Length: " << leftLength << "\n right Length: " << rightLength << endl;
+		bool carryNum = false;
+
+		for(int i = leftLength-1; i >= 0; i--)
 		{
-				leftNum = digit_to_decimal(lhs);
-				rightNum = digit_to_decimal(rhs);
-				sumNumber = leftNum + rightNum;
-				outputVal = to_string(sumNumber);
-		}
-		catch(...)
-		{
-				cout << "exception thrown" << endl;
+				cout << abs(i - leftLength+1) << " run ----------- " << endl;
+
+				int num1 = digit_to_decimal(leftNum.at(i));
+				cout << " num 1: " << num1 << endl;
+				int num2 = digit_to_decimal(rightNum.at(i));
+				cout << " num 2: " << num2 << endl;
+				int sum12 = num1 + num2;
+				cout << "  sum12: " << sum12 << endl;
+				if(carryNum)
+				{
+						sum12 += 1;
+						carryNum = false;
+						cout << "  carried a num " << endl;
+				}
+				if(sum12 > 9)
+				{
+						carryNum = true;
+						sum12 -= 10;
+						finalNum += decimal_to_digit(sum12);
+						cout << "  final num: " << finalNum << endl;
+				}
+				else
+				{
+						carryNum = false;
+						finalNum += decimal_to_digit(sum12);
+						cout << "  final num: " << finalNum << endl;
+				}
+
 		}
 
-		return "";
+		cout << "END OF SUMMATION ---------------" << endl;
+		cout << "FINAL NUM: " << finalNum.reverse() << endl;
+
+		return finalNum;
 
 }
 

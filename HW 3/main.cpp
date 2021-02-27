@@ -11,17 +11,11 @@ int main() {
     cout << "String Calculator" << endl;
     cout << "\"q\" or \"quit\" or ctrl+d to exit" << endl;
 
-    // int test = -1;
-		//
-    // try{
-    //   test = digit_to_decimal('/');
-		//
-    // }
-    // catch(...){cout<<"caught an exception"<<endl;}
-		//
-    // cout << test << endl;
-		string theName = "000024186000005752355";
-		trim_leading_zeros(theName);
+		string string1 = "125412135";
+		string string2 = "365998134";
+		// answer: 491410269
+
+		add(string1, string2);
 
     // TODO(student): implement the UI
 }
