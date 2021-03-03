@@ -10,3 +10,6 @@ run everything: ./a.out
 
 
 g++ -std=c++17 -Wall -Wextra -pedantic -Weffc++ string_calculator.cpp main.cpp
+
+
+one plus one equals
