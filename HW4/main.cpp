@@ -32,9 +32,18 @@ using std::invalid_argument;
 
 int main()
 {
-    // create arrays needed
+		// create needed arrays
+		float theTimes[9] = {};
+		string theCountries[9] = {};
+		unsigned int theNums[9] = {};
+		string theNames[9] = {};
 
-    // prep all arrays
+		// prep all arrays
+		prep_float_array(theTimes);
+		prep_unsigned_int_array(theNums);
+		prep_string_array(theCountries);
+		prep_string_array(theNames);
+
 
 	// prompt until both the file and the contained data are valid
 

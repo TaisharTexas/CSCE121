@@ -19,7 +19,7 @@ bool is_valid_number(const string& str)
 				if(isdigit(str.at(i)) != 0)
 				{
 						theNum = isdigit(str.at(i));
-						if(theNum > 0 && theNum < 9)
+						if(theNum >= 0 && theNum <= 9)
 						{
 								isValid = true;
 						}
@@ -60,7 +60,7 @@ bool is_valid_time(const string& str)
 						if(isdigit(str.at(i)) != 0)
 						{
 								theNum = isdigit(str.at(i));
-								if(theNum > 0 && theNum < 9)
+								if(theNum >= 0 && theNum <= 9)
 								{
 										isValid = true;
 								}
@@ -127,7 +127,7 @@ bool is_valid_name(const std::string& str)
 		for(int i = 0; i < str.length(); i++)
 		{
 				theValue = str.at(i);
-        cout << "theValue: " << theValue << endl;
+        // cout << "theValue: " << theValue << endl;
 				if(theValue == ' ')
 				{
 						isValid = true;
@@ -239,7 +239,7 @@ void prep_float_array(float *ary)
 {
 		for(int i = 0; i < 9; i++)
 		{
-				ary.at(i) = 0.0f;
+				ary[i] = 0.0f;
 		}
 		cout << "Ran prep_float_array with array input, " << ary << endl;
 }
@@ -254,7 +254,7 @@ void prep_unsigned_int_array(unsigned int *ary)
 {
 		for(int i = 0; i < 9; i++)
 		{
-				ary.at(i) = 0;
+				ary[i] = 0;
 		}
 		cout << "Ran prep_unsigned_int_array with array input, " << ary << endl;
 }
@@ -270,7 +270,7 @@ void prep_string_array(std::string *ary)
 {
 		for(int i = 0; i < 9; i++)
 		{
-				ary.at(i) = "N/A";
+				ary[i] = "N/A";
 		}
 		cout << "Ran prep_string_array with array input, " << ary << endl;
 }
@@ -283,6 +283,28 @@ void prep_string_array(std::string *ary)
 //---------------------------------------------------------
 void get_ranking(const float *timeArray, unsigned int *rankArray)
 {
+	 	float timeCopy[9] = {};
+		for(int i = 0; i < 9; i++)
+		{
+				timeCopy[i] = timeArray[i];
+		}
+
+		for(int k = 0; k < 9; k++)
+		{
+				int min = timeCopy[0];
+				unsigned int minLoc = 0;
+				for(int j = 0; j < 9; j++)
+				{
+						if(timeCopy[j] < min)
+						{
+								min = timeCopy[j];
+								minLoc = j;
+						}
+				}
+        timeCopy[minLoc] = 1000;
+				rankArray[k] = minLoc;
+		}
+
 		cout << "Ran get_ranking" << endl;
 }
 
