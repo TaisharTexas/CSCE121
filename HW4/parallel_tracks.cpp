@@ -1,33 +1,127 @@
 #include "parallel_tracks.h"
 
+using std::cout, std::endl, std::stoi;
+
+
 //-------------------------------------------------------
 // Name: is_valid_number
-// PreCondition:  a string that needs to be checked as a valid competition 
+// PreCondition:  a string that needs to be checked as a valid competition
 // number (non-negative int)
 // PostCondition: returns TRUE if string is only made up of numeric chars 0-9
 //---------------------------------------------------------
-bool is_valid_number(const std::string& str) {
-	
+bool is_valid_number(const std::string& str)
+{
+		int theNum;
+		bool isValid = false;
+
+		for(int i = 0; i < str.length(); i++)
+		{
+				// try
+				// {
+				// 		theNum = stoi(str.at(i));
+				// }
+				// catch(...)
+				// {
+				// 		cout << "Exception thrown. The input str, "
+				// 				 << str << ", is invalid. Returning false" << endl;
+				// 		return false;
+				// }
+				if(isdigit(str.at(i)) != 0)
+				{
+						theNum = isdigit(str.at(i));
+						if(theNum > 0 && theNum < 9)
+						{
+								isValid = true;
+						}
+						else
+						{
+								isValid = false;
+						}
+				}
+		}
+
+		return isValid;
+
 }
 
 //-------------------------------------------------------
 // Name: is_valid_time
-// PreCondition:  a string that needs to be checked as a valid time 
+// PreCondition:  a string that needs to be checked as a valid time
 // (non-negative float)
-// PostCondition: returns TRUE if string is only made up of numeric chars 
+// PostCondition: returns TRUE if string is only made up of numeric chars
 // 0-9 or '.'
 //---------------------------------------------------------
-bool is_valid_time(const std::string& str) {
-	
+bool is_valid_time(const std::string& str)
+{
+		float theNum;
+		bool isValid = false;
+
+		for(int i = 0; i < str.length(); i ++)
+		{
+				if(str.at(i) == '.')
+				{
+						isValid = true;
+				}
+				else
+				{
+						// try
+						// {
+						// 		theNum = stoi(str.at(i));
+						// }
+						// catch(...)
+						// {
+						// 		cout << "Exception thrown. The input str, "
+						// 							<< str << ", is invalid. Returning false" << endl;
+						// 		return false;
+						// }
+						
+						if(theNum > 0 && theNum < 9)
+						{
+								isValid = true;
+						}
+						else
+						{
+								isValid = false;
+						}
+				}
+		}
+		return isValid;
 }
+
 
 //-------------------------------------------------------
 // Name: is_valid_country
 // PreCondition:  a string that needs to be checked as a valid country (std::string)
 // PostCondition: returns TRUE if string is made of exactly 3 capital chars A-Z
 //---------------------------------------------------------
-bool is_valid_country(const std::string& str) {
-	
+bool is_valid_country(const std::string& str)
+{
+		char theValue = '';
+		int length = 0;
+		bool isValid = false;
+
+		for(int i = 0; i < str.length(); i++)
+		{
+				theValue = str.at(i);
+				if(theValue < 65 || theValue > 90)
+				{
+						length++;
+						isValid = true;
+				}
+				else
+				{
+						isValid = false;
+				}
+		}
+
+		if(length == 3 && isValid)
+		{
+				return true;
+		}
+		else
+		{
+				return false;
+		}
 }
 
 //-------------------------------------------------------
@@ -35,8 +129,29 @@ bool is_valid_country(const std::string& str) {
 // PreCondition:  a string that needs to be checked as a valid name (std::string)
 // PostCondition: returns TRUE if string is made of letters A-Z, a-z, and ' '
 //---------------------------------------------------------
-bool is_valid_name(const std::string& str) {
-	
+bool is_valid_name(const std::string& str)
+{
+		char theValue = '';
+		bool isValid = false;
+
+		for(int i = 0; i < str.length(); i++)
+		{
+				theValue = str.at(i);
+				if(theValue == 32)
+				{
+						isValid = true;
+				}
+				else if((theValue > 64 && theValue < 91) ||
+								(theValue > 96 && theValue < 123))
+				{
+						isValid = true;
+				}
+				else
+				{
+						isValid = false;
+				}
+		}
+		return isValid;
 }
 
 //-------------------------------------------------------
@@ -44,80 +159,84 @@ bool is_valid_name(const std::string& str) {
 // PreCondition:  the prepped parallel arrays , and a legit filename is pass
 // PostCondition: all arrays contain data from the csv file given
 //---------------------------------------------------------
-void get_runner_data( const std::string& file, float *timeArray, std::string* countryArray, 
-		unsigned int* numberArray, std::string *lastnameArray) 
+void get_runner_data( const std::string& file,
+											float *timeArray,
+											std::string* countryArray,
+											unsigned int* numberArray,
+											std::string *lastnameArray)
 {
-	if (file.size() < 4 || file.substr(file.length()-4, 4) != ".csv") throw std::invalid_argument("File not CSV file");
-    // using syntax from iostreams notes (examples)
-	
-	std::ifstream infile;
-	
-	infile.open(file);
-	
-	if (!infile.is_open()) {
-		throw std::invalid_argument("Cannot open file");
-	}
-	
-    // all data abot to be read in from the CSV file 
-    std::string line; // reading the line from the file
-	float time; // float version of time
-	std::string strTime; // string version of time
-	std::string country;
-	std::string strNumber; // string version of number
-    unsigned int number;
-    std::string lname;
-    
-	int i = 0; // index that values are bout to be placed
-	
-    // get whole line to be broken up later
-    while(getline(infile, line))
-	{
-		// convert line to istringstream in order to break it up
-		std::istringstream sin(line);
-		
-		// get data, piece by piece using the , as the delimiter
-		// if data missing, throw exception
-		if (!getline(sin, strTime, ',')) 
-			throw std::invalid_argument("File missing data");
-		// if strTime is not a valid (non-negative) float, throw exception
-		if (!is_valid_time(strTime)) 
-			throw std::invalid_argument("File contains invalid data (time)");	//Customize to time?
-		// THEN convert to FLOAT (since not a string)
-		time = std::stof (strTime);	
-		
-		// if data missing, throw exception
-		if (!getline(sin, country, ',')) 
-			throw std::invalid_argument("File missing data");
-		// if country is not a valid country name (3 uppercase char), throw exception
-		if (!is_valid_country(country)) 
-			throw std::invalid_argument("File contains invalid data (country)");
-		
-		// if data missing, throw exception
-		if (!getline(sin, strNumber, ',')) 
-			throw std::invalid_argument("File missing data");
-		// if strNumber is not a valid (non-negative) int, throw exception
-		if (!is_valid_number(strNumber)) 
-			throw std::invalid_argument("File contains invalid data (number)");	// Customize to number?
-		// THEN convert to FLOAT (since not a string)
-		number = std::stoi (strNumber); // this is NOT perfect!! there is a long int version, but...
-		
-		// last line does not have a ,
-		// if data missing, throw exception
-		if (!getline(sin, lname)) throw std::invalid_argument("File missing data");
-		// if lname is not a valid name (alphabet chars and ' '), throw exception
-		if (!is_valid_name(lname)) throw std::invalid_argument("File contains invalid data (name)");
-		
-		// assign values to arrays
-		timeArray[i] = time;
-		countryArray[i] = country;
-		numberArray[i] = number;
-		lastnameArray[i] = lname;
-		i++; // increment to fill next index in the parallel arrays
-		
-    }
-	
-    infile.close();
-    
+		if (file.size() < 4 || file.substr(file.length()-4, 4) != ".csv") throw std::invalid_argument("File not CSV file");
+	    // using syntax from iostreams notes (examples)
+
+		std::ifstream infile;
+
+		infile.open(file);
+
+		if (!infile.is_open())
+		{
+				throw std::invalid_argument("Cannot open file");
+		}
+
+	    // all data abot to be read in from the CSV file
+	    std::string line; // reading the line from the file
+		float time; // float version of time
+		std::string strTime; // string version of time
+		std::string country;
+		std::string strNumber; // string version of number
+	    unsigned int number;
+	    std::string lname;
+
+		int i = 0; // index that values are bout to be placed
+
+	    // get whole line to be broken up later
+	    while(getline(infile, line))
+			{
+					// convert line to istringstream in order to break it up
+					std::istringstream sin(line);
+
+					// get data, piece by piece using the , as the delimiter
+					// if data missing, throw exception
+					if (!getline(sin, strTime, ','))
+							throw std::invalid_argument("File missing data");
+					// if strTime is not a valid (non-negative) float, throw exception
+					if (!is_valid_time(strTime))
+							throw std::invalid_argument("File contains invalid data (time)");	//Customize to time?
+					// THEN convert to FLOAT (since not a string)
+					time = std::stof (strTime);
+
+					// if data missing, throw exception
+					if (!getline(sin, country, ','))
+							throw std::invalid_argument("File missing data");
+					// if country is not a valid country name (3 uppercase char), throw exception
+					if (!is_valid_country(country))
+							throw std::invalid_argument("File contains invalid data (country)");
+
+					// if data missing, throw exception
+					if (!getline(sin, strNumber, ','))
+							throw std::invalid_argument("File missing data");
+					// if strNumber is not a valid (non-negative) int, throw exception
+					if (!is_valid_number(strNumber))
+							throw std::invalid_argument("File contains invalid data (number)");	// Customize to number?
+					// THEN convert to FLOAT (since not a string)
+					number = std::stoi (strNumber); // this is NOT perfect!! there is a long int version, but...
+
+					// last line does not have a ,
+					// if data missing, throw exception
+					if (!getline(sin, lname)) throw std::invalid_argument("File missing data");
+					// if lname is not a valid name (alphabet chars and ' '), throw exception
+					if (!is_valid_name(lname)) throw std::invalid_argument("File contains invalid data (name)");
+
+					// assign values to arrays
+					timeArray[i] = time;
+					countryArray[i] = country;
+					numberArray[i] = number;
+					lastnameArray[i] = lname;
+					i++; // increment to fill next index in the parallel arrays
+
+	    }
+
+	    infile.close();
+
 }
 
 //-------------------------------------------------------
@@ -128,7 +247,11 @@ void get_runner_data( const std::string& file, float *timeArray, std::string* co
 void prep_float_array(float *ary)
 // making sure all values within the array are set to 0.0;
 {
-   
+		for(int i = 0; i < 9; i++)
+		{
+				ary.at(i) = 0.0f;
+		}
+		cout << "Ran prep_float_array with array input, " << ary << endl;
 }
 
 //-------------------------------------------------------
@@ -139,7 +262,11 @@ void prep_float_array(float *ary)
 void prep_unsigned_int_array(unsigned int *ary)
 // making sure all values within the array are set to 0;
 {
-	
+		for(int i = 0; i < 9; i++)
+		{
+				ary.at(i) = 0;
+		}
+		cout << "Ran prep_unsigned_int_array with array input, " << ary << endl;
 }
 
 //-------------------------------------------------------
@@ -151,18 +278,22 @@ void prep_unsigned_int_array(unsigned int *ary)
 void prep_string_array(std::string *ary)
 // making sure all values within the array are set to "N/A";
 {
-	
+		for(int i = 0; i < 9; i++)
+		{
+				ary.at(i) = "N/A";
+		}
+		cout << "Ran prep_string_array with array input, " << ary << endl;
 }
 
 //-------------------------------------------------------
 // Name: get_ranking
 // PreCondition:  just the time array is passed in, and has valid data
-// PostCondition: after a very ineffiect nested loop to determine the placements 
+// PostCondition: after a very ineffiect nested loop to determine the placements
 // and places the ranks in a new array. That new array is returned
 //---------------------------------------------------------
 void get_ranking(const float *timeArray, unsigned int *rankArray)
 {
-	
+		cout << "Ran get_ranking" << endl;
 }
 
 
@@ -172,18 +303,20 @@ void get_ranking(const float *timeArray, unsigned int *rankArray)
 // PostCondition: after a very ineffiect nested loop to determine the ranks
 // it then displays then along with a delta in time from the start
 //---------------------------------------------------------
-void print_results(const float *timeArray, const std::string* countryArray,
-		const std::string *lastnameArray, const unsigned int* rankArray)
+void print_results(const float *timeArray,
+										const std::string* countryArray,
+										const std::string *lastnameArray,
+										const unsigned int* rankArray)
 {
 
 	std::cout << "Final results!!";
 	std::cout << std::setprecision(2) << std::showpoint << std::fixed << std::endl;
 	float best_time = 0.0f;
-		
+
 	// print the results, based of rank, but measure the time difference_type
 	for(unsigned int j = 1; j <= SIZE; j++)
 	{
-		
+
 		// go thru each array, find who places in "i" spot
 		for(unsigned int i = 0; i < SIZE; i++)
 		{
@@ -191,14 +324,14 @@ void print_results(const float *timeArray, const std::string* countryArray,
 			{
 				best_time = timeArray[i];
 			}
-			
-			
+
+
 			if(rankArray[i] == j) // then display this person's data
 			{
 				// this needs percision display
-				std::cout << "[" << j << "]  " << timeArray[i] << " " << std::setw(15) << std::left << lastnameArray[i] << "\t" << "(" << countryArray[i] << ")  +" << (timeArray[i] - best_time) << std::endl; 
+				std::cout << "[" << j << "]  " << timeArray[i] << " " << std::setw(15) << std::left << lastnameArray[i] << "\t" << "(" << countryArray[i] << ")  +" << (timeArray[i] - best_time) << std::endl;
 			}
-			
+
 		}
-	}	
+	}
 }

@@ -3,10 +3,10 @@
 File: ArraysHW.cpp
 Author: Prof. Lupoli & Andrew Nemec
 Date: 2/16/2021
-Section: 
+Section:
 E-mail: slupoli@tamu.edu
 Description:
-This file contains C++  code that will simulate data collected from a track 
+This file contains C++  code that will simulate data collected from a track
 event with 9 lanes. The code will sort the order, then display the results
 
 Data File Information
@@ -17,11 +17,12 @@ content: The csv file will contain data in the constant form of:
 36.5,RUS,35,Polsley
 45.8,ENG,73,Teale
 52.34,CHN,14,Nemec
-76.45,ITY,23,Lupoli     
+76.45,ITY,23,Lupoli
 
 * max 2 decimals
 
 *******************************************************************************/
+
 
 #include "parallel_tracks.h"
 
@@ -32,13 +33,12 @@ using std::invalid_argument;
 int main()
 {
     // create arrays needed
-	
+
     // prep all arrays
-	
+
 	// prompt until both the file and the contained data are valid
-	
+
 	// determine ranking, notice the rank array receives the results
 
     return 0;
 }
-
