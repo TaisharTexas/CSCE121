@@ -9,23 +9,13 @@ using std::cout, std::endl, std::stoi;
 // number (non-negative int)
 // PostCondition: returns TRUE if string is only made up of numeric chars 0-9
 //---------------------------------------------------------
-bool is_valid_number(const std::string& str)
+bool is_valid_number(const string& str)
 {
 		int theNum;
 		bool isValid = false;
 
 		for(int i = 0; i < str.length(); i++)
 		{
-				// try
-				// {
-				// 		theNum = stoi(str.at(i));
-				// }
-				// catch(...)
-				// {
-				// 		cout << "Exception thrown. The input str, "
-				// 				 << str << ", is invalid. Returning false" << endl;
-				// 		return false;
-				// }
 				if(isdigit(str.at(i)) != 0)
 				{
 						theNum = isdigit(str.at(i));
@@ -38,8 +28,11 @@ bool is_valid_number(const std::string& str)
 								isValid = false;
 						}
 				}
+        else
+        {
+            return false;
+        }
 		}
-
 		return isValid;
 
 }
@@ -51,7 +44,7 @@ bool is_valid_number(const std::string& str)
 // PostCondition: returns TRUE if string is only made up of numeric chars
 // 0-9 or '.'
 //---------------------------------------------------------
-bool is_valid_time(const std::string& str)
+bool is_valid_time(const string& str)
 {
 		float theNum;
 		bool isValid = false;
@@ -64,25 +57,22 @@ bool is_valid_time(const std::string& str)
 				}
 				else
 				{
-						// try
-						// {
-						// 		theNum = stoi(str.at(i));
-						// }
-						// catch(...)
-						// {
-						// 		cout << "Exception thrown. The input str, "
-						// 							<< str << ", is invalid. Returning false" << endl;
-						// 		return false;
-						// }
-						
-						if(theNum > 0 && theNum < 9)
+						if(isdigit(str.at(i)) != 0)
 						{
-								isValid = true;
+								theNum = isdigit(str.at(i));
+								if(theNum > 0 && theNum < 9)
+								{
+										isValid = true;
+								}
+								else
+								{
+										return false;
+								}
 						}
-						else
-						{
-								isValid = false;
-						}
+            else
+            {
+                return false;
+            }
 				}
 		}
 		return isValid;
@@ -94,23 +84,23 @@ bool is_valid_time(const std::string& str)
 // PreCondition:  a string that needs to be checked as a valid country (std::string)
 // PostCondition: returns TRUE if string is made of exactly 3 capital chars A-Z
 //---------------------------------------------------------
-bool is_valid_country(const std::string& str)
+bool is_valid_country(const string& str)
 {
-		char theValue = '';
+		char theValue;
 		int length = 0;
 		bool isValid = false;
 
 		for(int i = 0; i < str.length(); i++)
 		{
 				theValue = str.at(i);
-				if(theValue < 65 || theValue > 90)
+				if(isalpha(theValue) && isupper(theValue))
 				{
 						length++;
 						isValid = true;
 				}
 				else
 				{
-						isValid = false;
+						return false;
 				}
 		}
 
@@ -131,24 +121,24 @@ bool is_valid_country(const std::string& str)
 //---------------------------------------------------------
 bool is_valid_name(const std::string& str)
 {
-		char theValue = '';
+		char theValue;
 		bool isValid = false;
 
 		for(int i = 0; i < str.length(); i++)
 		{
 				theValue = str.at(i);
-				if(theValue == 32)
+        cout << "theValue: " << theValue << endl;
+				if(theValue == ' ')
 				{
 						isValid = true;
 				}
-				else if((theValue > 64 && theValue < 91) ||
-								(theValue > 96 && theValue < 123))
+				else if(isalpha(theValue))
 				{
 						isValid = true;
 				}
 				else
 				{
-						isValid = false;
+						return false;
 				}
 		}
 		return isValid;
