@@ -16,7 +16,7 @@ void get_ranking(const float *timeArray, unsigned int *rankArray);
 int main()
 {
 
-    float dummy[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    float dummy[9] = {97.831, 38.3608, 60.8176, 77.5583, 71.9368, 53.3277, 46.9393, 74.7743, 64.1635};
     unsigned int otherDummy[9] = {};
 
     cout << "Start of function test" << endl;
@@ -29,6 +29,13 @@ int main()
     for(int i = 0; i < 9; i++)
     {
         cout << otherDummy[i] << ", ";
+    }
+    cout << endl;
+
+    cout << "values: ";
+    for(int j = 0; j < 9; j++)
+    {
+        cout << dummy[otherDummy[j]] << ", ";
     }
     cout << endl;
 
@@ -49,7 +56,7 @@ void get_ranking(const float *timeArray, unsigned int *rankArray)
 
 		for(int k = 0; k < 9; k++)
 		{
-				int min = timeCopy[0];
+				float min = timeCopy[0];
 				unsigned int minLoc = 0;
 				for(int j = 0; j < 9; j++)
 				{
@@ -60,7 +67,7 @@ void get_ranking(const float *timeArray, unsigned int *rankArray)
 						}
 				}
         timeCopy[minLoc] = 1000;
-				rankArray[k] = minLoc;
+				rankArray[minLoc] = k+1;
 		}
 
 		cout << "Ran get_ranking" << endl;

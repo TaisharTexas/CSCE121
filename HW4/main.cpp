@@ -33,21 +33,49 @@ using std::invalid_argument;
 int main()
 {
 		// create needed arrays
+		// cout << "start" << endl;
+		// cout << "create needed arrays" << endl;
 		float theTimes[9] = {};
 		string theCountries[9] = {};
 		unsigned int theNums[9] = {};
 		string theNames[9] = {};
+		unsigned int theRanks[9] = {};
 
-		// prep all arrays
+		string filename = "";
+
 		prep_float_array(theTimes);
 		prep_unsigned_int_array(theNums);
 		prep_string_array(theCountries);
 		prep_string_array(theNames);
+		prep_unsigned_int_array(theRanks);
 
+		bool fileValid = false;
+		do
+		{
+				cout << "Enter file name: ";
+				getline(cin, filename);
+				try
+				{
+						get_runner_data(filename, theTimes, theCountries, theNums, theNames);
+						fileValid = true;
+				}
+				catch(invalid_argument& e)
+				{
+						cout << "Invalid File: " << e.what() << endl;
+						prep_float_array(theTimes);
+						prep_unsigned_int_array(theNums);
+						prep_string_array(theCountries);
+						prep_string_array(theNames);
 
-	// prompt until both the file and the contained data are valid
+						fileValid = false;
+				}
+		}
+		while(!fileValid);
 
 	// determine ranking, notice the rank array receives the results
+		get_ranking(theTimes, theRanks);
+		print_results(theTimes, theCountries, theNames, theRanks);
+
 
     return 0;
 }

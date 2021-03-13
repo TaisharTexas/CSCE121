@@ -1,6 +1,6 @@
 #include "parallel_tracks.h"
 
-using std::cout, std::endl, std::stoi;
+using std::cout, std::endl, std::stoi, std::string;
 
 
 //-------------------------------------------------------
@@ -14,7 +14,7 @@ bool is_valid_number(const string& str)
 		int theNum;
 		bool isValid = false;
 
-		for(int i = 0; i < str.length(); i++)
+		for(unsigned int i = 0; i < str.length(); i++)
 		{
 				if(isdigit(str.at(i)) != 0)
 				{
@@ -47,13 +47,23 @@ bool is_valid_number(const string& str)
 bool is_valid_time(const string& str)
 {
 		float theNum;
+		float anotherDec = 0;
+		float actualNumbers = 0;
 		bool isValid = false;
 
-		for(int i = 0; i < str.length(); i ++)
+		for(unsigned int i = 0; i < str.length(); i ++)
 		{
 				if(str.at(i) == '.')
 				{
-						isValid = true;
+						anotherDec++;
+						if(anotherDec > 1)
+						{
+								return false;
+						}
+						else
+						{
+								isValid = true;
+						}
 				}
 				else
 				{
@@ -62,6 +72,7 @@ bool is_valid_time(const string& str)
 								theNum = isdigit(str.at(i));
 								if(theNum >= 0 && theNum <= 9)
 								{
+										actualNumbers++;
 										isValid = true;
 								}
 								else
@@ -75,7 +86,15 @@ bool is_valid_time(const string& str)
             }
 				}
 		}
-		return isValid;
+		if(actualNumbers > 0)
+		{
+				return isValid;
+		}
+		else
+		{
+				return false;
+		}
+
 }
 
 
@@ -90,7 +109,7 @@ bool is_valid_country(const string& str)
 		int length = 0;
 		bool isValid = false;
 
-		for(int i = 0; i < str.length(); i++)
+		for(unsigned int i = 0; i < str.length(); i++)
 		{
 				theValue = str.at(i);
 				if(isalpha(theValue) && isupper(theValue))
@@ -124,7 +143,7 @@ bool is_valid_name(const std::string& str)
 		char theValue;
 		bool isValid = false;
 
-		for(int i = 0; i < str.length(); i++)
+		for(unsigned int i = 0; i < str.length(); i++)
 		{
 				theValue = str.at(i);
         // cout << "theValue: " << theValue << endl;
@@ -241,7 +260,7 @@ void prep_float_array(float *ary)
 		{
 				ary[i] = 0.0f;
 		}
-		cout << "Ran prep_float_array with array input, " << ary << endl;
+		// cout << "Ran prep_float_array with array input, " << ary << endl;
 }
 
 //-------------------------------------------------------
@@ -256,7 +275,7 @@ void prep_unsigned_int_array(unsigned int *ary)
 		{
 				ary[i] = 0;
 		}
-		cout << "Ran prep_unsigned_int_array with array input, " << ary << endl;
+		// cout << "Ran prep_unsigned_int_array with array input, " << ary << endl;
 }
 
 //-------------------------------------------------------
@@ -272,7 +291,7 @@ void prep_string_array(std::string *ary)
 		{
 				ary[i] = "N/A";
 		}
-		cout << "Ran prep_string_array with array input, " << ary << endl;
+		// cout << "Ran prep_string_array with array input, " << ary << endl;
 }
 
 //-------------------------------------------------------
@@ -291,7 +310,7 @@ void get_ranking(const float *timeArray, unsigned int *rankArray)
 
 		for(int k = 0; k < 9; k++)
 		{
-				int min = timeCopy[0];
+				float min = timeCopy[0];
 				unsigned int minLoc = 0;
 				for(int j = 0; j < 9; j++)
 				{
@@ -302,10 +321,10 @@ void get_ranking(const float *timeArray, unsigned int *rankArray)
 						}
 				}
         timeCopy[minLoc] = 1000;
-				rankArray[k] = minLoc;
+				rankArray[minLoc] = k+1;
 		}
 
-		cout << "Ran get_ranking" << endl;
+		// cout << "Ran get_ranking" << endl;
 }
 
 
