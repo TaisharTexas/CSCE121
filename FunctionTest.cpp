@@ -7,68 +7,45 @@
 #include <limits>
 #include <cctype>		// Contains isdigit, isalpha, isupper, etc.
 
-using std::cin, std::cout, std::endl, std::string, std::sort;
+using std::cin, std::cout, std::endl, std::string, std::sort, std::getline;
 using std::invalid_argument;
 
-void get_ranking(const float *timeArray, unsigned int *rankArray);
-
+int countVowels(const string (&sentences)[], int numSentences);
 
 int main()
 {
+    int nSentences;
+    string* theSentences;
 
-    float dummy[9] = {97.831, 38.3608, 60.8176, 77.5583, 71.9368, 53.3277, 46.9393, 74.7743, 64.1635};
-    unsigned int otherDummy[9] = {};
-
-    cout << "Start of function test" << endl;
-    cout << "---------------------------" << endl;
-    cout << "time data: " << dummy << endl;
-
-    get_ranking(dummy, otherDummy);
-
-    cout << "ranking: ";
-    for(int i = 0; i < 9; i++)
-    {
-        cout << otherDummy[i] << ", ";
-    }
+    cout << "enter number of sentences: ";
+    cin >> nSentences;
+    cin.ignore(10000, '\n');
+    theSentences = new string[nSentences];
     cout << endl;
-
-    cout << "values: ";
-    for(int j = 0; j < 9; j++)
+    for(int i = 0; i < nSentences; i++)
     {
-        cout << dummy[otherDummy[j]] << ", ";
+        cout << "enter sentence " << i+1 << ": ";
+        getline(cin, theSentences[i]);
+        // cout << "> " << theSentences[i] << endl;
+
     }
-    cout << endl;
 
+    cout << "There are " << countVowels(theSentences, nSentences)
+         << " vowels in the " << nSentences << " given sentences." << endl;
 
-    cout << "---------------------------" << endl;
-    cout << "End of function test" << endl;
 
     return 0;
 }
 
-void get_ranking(const float *timeArray, unsigned int *rankArray)
+int countVowels(const string (&sentences)[], int numSentences)
 {
-	 	float timeCopy[9] = {};
-		for(int i = 0; i < 9; i++)
-		{
-				timeCopy[i] = timeArray[i];
-		}
+    int numVowels = 0;
 
-		for(int k = 0; k < 9; k++)
-		{
-				float min = timeCopy[0];
-				unsigned int minLoc = 0;
-				for(int j = 0; j < 9; j++)
-				{
-						if(timeCopy[j] < min)
-						{
-								min = timeCopy[j];
-								minLoc = j;
-						}
-				}
-        timeCopy[minLoc] = 1000;
-				rankArray[minLoc] = k+1;
-		}
+    for(int i = 0; i < numSentences; i++)
+    {
+        string tempSentence = sentences[i];
+        for(int k = 0; k < )
+    }
 
-		cout << "Ran get_ranking" << endl;
+    return numVowels;
 }
