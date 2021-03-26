@@ -9,4 +9,5 @@ compile: g++ -std=c++17 -Wall -Wextra -pedantic -Weffc++ program_name_one.cpp pr
 run everything: ./a.out
 
 
-g++ -std=c++17 -Wall -Wextra -pedantic -Weffc++ string_calculator.cpp main.cpp
+g++ -std=c++17 -Wall -Wextra -pedantic -Weffc++ functions.cpp seamcarving.cpp
+ 
