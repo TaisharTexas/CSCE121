@@ -13,6 +13,8 @@ using std::string;
 using std::ifstream;
 using std::ofstream;
 
+//PT1
+
 Pixel** createImage(int width, int height) {
   // cout << "Start createImage... " << endl;
 
@@ -292,15 +294,125 @@ int energy(Pixel** image, int column, int row, int width, int height) {
     return pxEnergy;
 }
 
+//PT2
+
 int loadVerticalSeam(Pixel** image, int start_col, int width, int height, int* seam) {
     // TODO(student): load a vertical seam
+    int col = start_col;
+    int row = 0;
+    //Set the first pixel in the vertical seam
+    seam[row] = col;
+    //grab the energy from the starting pixel and add it to the total energy
+    int totalSeamEnergy = energy(image, col, row, width, height);
+    row++;
+    //For every row, move to the adjacent pixel with the smallest energy
+    while(row < height)
+    {
+        int left, right, forward;
+        //Grab the energies for the three pixels adjacent to the current pixel
+        left = energy(image, col+1, row, width, height);
+        right = energy(image, col-1, row, width, height);
+        forward = energy(image, col, row, width, height);
+        int min;
+
+        //Figure out whether the energy in the left or the forward pixel is smaller
+        //Assign min with the energy of the smaller pixel
+        if(left < forward)
+        {
+            min = left;
+            if(col+1 <= width)
+            {
+                col = col+1;
+            }
+            else
+            {
+                col = col;
+                min = forward;
+            }
+        }
+        else
+        {
+            min = forward;
+        }
+
+        //Figure out if the min energy of left and forward is smaller than the energy of the right pixel
+        if(right < min)
+        {
+            min = right;
+            if(col-1 >= 0)
+            {
+                col = col-1;
+            }
+            else
+            {
+                col = col;
+                min = forward;
+            }
+        }
+
+        //add the next smallest pixel to the seam and add its energy to the total
+        seam[row] = col;
+        totalSeamEnergy += min;
+        //move to the next row and repeat
+        row++;
+    }
     INFO(image);
     INFO(start_col);
     INFO(width);
     INFO(height);
     INFO(seam);
-  return 0;
+    return totalSeamEnergy;
 }
+
+int* findMinVerticalSeam(Pixel** image, int width, int height) {
+    // TODO(student): find min vertical seam
+    int currentCol = 0;
+    int currentSeamEnergy = 0;
+    int minSeamEnergy = 0;
+    int minSeamCol = 0;
+    int currentSeam[height];
+
+    //load the seam energy for the first column
+    currentSeamEnergy = loadVerticalSeam(image, currentCol, width, height, currentSeam);
+    minSeamEnergy = currentSeamEnergy;
+    minSeamCol = currentCol;
+    currentCol++;
+
+    //run through all the columns and find the seam with the lowest energy
+    while(currentCol < width)
+    {
+        //find the vertical seam for every column and keep the one with the smallest energy
+        currentSeamEnergy = loadVerticalSeam(image, currentCol, width, height, currentSeam);
+        //if the current seam energy is smaller than the stored minimum seam energy,
+        //set the current seam energy as the new minimum seam energy
+        if(currentSeamEnergy < minSeamEnergy)
+        {
+            minSeamEnergy = currentSeamEnergy;
+            minSeamCol = currentCol;
+        }
+        //move to the next column and repeat
+        currentCol++;
+    }
+
+    INFO(image);
+    INFO(width);
+    INFO(height);
+    return nullptr;
+}
+
+void removeVerticalSeam(Pixel** image, int width, int height, int* verticalSeam) {
+    // TODO(student): remove a vertical seam
+    for(int row = 0; row < height; row++)
+    {
+        image[verticalSeam[row]][row] = image[verticalSeam[row]+1][row];
+    }
+    INFO(image);
+    INFO(width);
+    INFO(height);
+    INFO(verticalSeam);
+}
+
+//Extra
 
 int loadHorizontalSeam(Pixel** image, int start_row, int width, int height, int* seam) {
     // TODO(student): load a horizontal seam
@@ -312,28 +424,12 @@ int loadHorizontalSeam(Pixel** image, int start_row, int width, int height, int*
   return 0;
 }
 
-int* findMinVerticalSeam(Pixel** image, int width, int height) {
-    // TODO(student): find min vertical seam
-    INFO(image);
-    INFO(width);
-    INFO(height);
-  return nullptr;
-}
-
 int* findMinHorizontalSeam(Pixel** image, int width, int height) {
     // TODO(student): find min horizontal seam
     INFO(image);
     INFO(width);
     INFO(height);
   return nullptr;
-}
-
-void removeVerticalSeam(Pixel** image, int width, int height, int* verticalSeam) {
-    // TODO(student): remove a vertical seam
-    INFO(image);
-    INFO(width);
-    INFO(height);
-    INFO(verticalSeam);
 }
 
 void removeHorizontalSeam(Pixel** image, int width, int height, int* horizontalSeam) {

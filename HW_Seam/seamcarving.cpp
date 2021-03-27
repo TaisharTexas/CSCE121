@@ -26,6 +26,7 @@ int main() {
       cout << "Error: width is a non-integer value" << endl;
       throw std::exception();
   }
+
   cin >> height;
   if(cin.fail()){
       cout << "Error: height is a non-integer value" << endl;
@@ -43,11 +44,13 @@ int main() {
   cout << "Input target width and height: ";
   int targetWidth = 0;
   int targetHeight = 0;
+
   cin >> targetWidth;
   if(cin.fail()){
       cout << "Error: target width is a non-integer value" << endl;
       throw std::exception();
   }
+
   cin >> targetHeight;
   if(cin.fail()){
       cout << "Error: target height is a non-integer value" << endl;
@@ -78,19 +81,18 @@ int main() {
       if (loadImage(filename, image1, width, height)) {
 
         // uncomment for part 2
-
           while ((width - targetWidth > 0) || (height - targetHeight > 0)) {
               if (width - targetWidth > 0) {
-                  int* verticalSeam = findMinVerticalSeam(image, width, height);
-                  removeVerticalSeam(image, width, height, verticalSeam);
+                  int* verticalSeam = findMinVerticalSeam(image1, width, height);
+                  removeVerticalSeam(image1, width, height, verticalSeam);
                   deleteSeam(verticalSeam);
                   width--;
               }
 
               // this is for the extra credit
               if (height - targetHeight > 0) {
-                  int* horizontalSeam = findMinHorizontalSeam(image, width, height);
-                  removeHorizontalSeam(image, width, height, horizontalSeam);
+                  int* horizontalSeam = findMinHorizontalSeam(image1, width, height);
+                  removeHorizontalSeam(image1, width, height, horizontalSeam);
                   deleteSeam(horizontalSeam);
                   height--;
               }
