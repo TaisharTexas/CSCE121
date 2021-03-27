@@ -66,18 +66,19 @@ void deleteImage(Pixel** image, int width) {
 }
 
 int* createSeam(int length) {
+    // cout << "Creating seam..." << endl;
     int* seam = new int[length];
     for(int i = 0; i < length; i++){
         seam[i] = 0;
     }
-    INFO(length);
+    // INFO(length);
     return seam;
 }
 
 void deleteSeam(int* seam) {
     delete [] seam;
     seam = nullptr;
-    INFO(seam);
+    // INFO(seam);
 }
 
 bool loadImage(string filename, Pixel** image, int width, int height) {
@@ -195,10 +196,10 @@ bool loadImage(string filename, Pixel** image, int width, int height) {
         cout << "Error: too many color values" << endl;
         return false;
     }
-    INFO(filename);
-    INFO(image);
-    INFO(width);
-    INFO(height);
+    // INFO(filename);
+    // INFO(image);
+    // INFO(width);
+    // INFO(height);
     return true;
 }
 
@@ -231,10 +232,10 @@ bool outputImage(string filename, Pixel** image, int width, int height) {
         }
         ofs.close();
     }
-    INFO(filename);
-    INFO(image);
-    INFO(width);
-    INFO(height);
+    // INFO(filename);
+    // INFO(image);
+    // INFO(width);
+    // INFO(height);
     return true;
 }
 
@@ -244,7 +245,13 @@ int energy(Pixel** image, int column, int row, int width, int height) {
         yRed, yGreen, yBlue,
         xGradient, yGradient, pxEnergy;
 
-        if(column == 0)
+        if(width == 1)
+        {
+            xRed = 0;
+            xGreen = 0;
+            xBlue = 0;
+        }
+        else if(column == 0)
         {
             xRed   = abs(image[column+1][row].r - image[width-1][row].r);
             xGreen = abs(image[column+1][row].g - image[width-1][row].g);
@@ -255,7 +262,6 @@ int energy(Pixel** image, int column, int row, int width, int height) {
             xRed   = abs(image[0][row].r - image[column-1][row].r);
             xGreen = abs(image[0][row].g - image[column-1][row].g);
             xBlue  = abs(image[0][row].b - image[column-1][row].b);
-
         }
         else
         {
@@ -282,15 +288,15 @@ int energy(Pixel** image, int column, int row, int width, int height) {
             yBlue  = abs(image[column][row+1].b - image[column][row-1].b);
         }
 
-    xGradient = pow(xRed, 2) + pow(xGreen, 2) + pow(xBlue, 2);
-    yGradient = pow(yRed, 2) + pow(yGreen, 2) + pow(yBlue, 2);
+    xGradient = (xRed * xRed) + (xGreen * xGreen) + (xBlue * xBlue); //0
+    yGradient = (yRed * yRed) + (yGreen * yGreen) + (yBlue * yBlue);
     pxEnergy = xGradient + yGradient;
 
-    INFO(image);
-    INFO(column);
-    INFO(row);
-    INFO(width);
-    INFO(height);
+    // INFO(image);
+    // INFO(column);
+    // INFO(row);
+    // INFO(width);
+    // INFO(height);
     return pxEnergy;
 }
 
@@ -302,65 +308,143 @@ int loadVerticalSeam(Pixel** image, int start_col, int width, int height, int* s
     int row = 0;
     //Set the first pixel in the vertical seam
     seam[row] = col;
+    // cout << "start col: " << col << endl;
+    // cout << "seam[" << row << "] = " << seam[row] << endl;
     //grab the energy from the starting pixel and add it to the total energy
     int totalSeamEnergy = energy(image, col, row, width, height);
+    // cout << "totalSeamEnergy: " << totalSeamEnergy << endl;
     row++;
+    // cout << "row: " << row << endl;
     //For every row, move to the adjacent pixel with the smallest energy
     while(row < height)
     {
         int left, right, forward;
+        int min = 0;
         //Grab the energies for the three pixels adjacent to the current pixel
-        left = energy(image, col+1, row, width, height);
-        right = energy(image, col-1, row, width, height);
-        forward = energy(image, col, row, width, height);
-        int min;
 
-        //Figure out whether the energy in the left or the forward pixel is smaller
-        //Assign min with the energy of the smaller pixel
-        if(left < forward)
+        //can't grab left or right, can only use forward
+        if(width == 1)
         {
-            min = left;
-            if(col+1 <= width)
+            forward = energy(image, col, row, width, height);
+            min = forward;
+        }
+        //can't use right energy
+        else if(col == 0)
+        {
+            left = energy(image, col+1, row, width, height);
+            // cout << "left: " << left << endl;
+            forward = energy(image, col, row, width, height);
+            // cout << "forward: " << forward << endl;
+            if(left < forward)
             {
-                col = col+1;
+                if(col+1 <= width)
+                {
+                    min = left;
+                    col += 1;
+                }
+                else
+                {
+                    min = forward;
+                }
             }
             else
             {
-                col = col;
+                min = forward;
+            }
+        }
+        //cant use left energy
+        else if(col == (width-1))
+        {
+            right = energy(image, col-1, row, width, height);
+            // cout << "right: " << right << endl;
+            forward = energy(image, col, row, width, height);
+            // cout << "forward: " << forward << endl;
+            if(right < forward)
+            {
+                if(col-1 >= 0)
+                {
+                    min = right;
+                    col -= 1;
+                }
+                else
+                {
+                    min = forward;
+                }
+            }
+            else
+            {
                 min = forward;
             }
         }
         else
         {
-            min = forward;
-        }
+            left = energy(image, col+1, row, width, height);
+            // cout << "left: " << left << endl;
+            right = energy(image, col-1, row, width, height);
+            // cout << "right: " << right << endl;
+            forward = energy(image, col, row, width, height);
+            // cout << "forward: " << forward << endl;
 
-        //Figure out if the min energy of left and forward is smaller than the energy of the right pixel
-        if(right < min)
-        {
-            min = right;
-            if(col-1 >= 0)
+            //Figure out whether the energy in the left or the forward pixel is smaller
+            //Assign min with the energy of the smaller pixel
+            if(left < forward)
             {
-                col = col-1;
+                if(left <= right)
+                {
+                    if(col+1 <= width)
+                    {
+                        min = left;
+                        col += 1;
+                    }
+                    else
+                    {
+                        min = forward;
+                    }
+                }
+                else
+                {
+                    min = right;
+                    if(col-1 >= 0)
+                    {
+                        col -= 1;
+                    }
+                    else
+                    {
+                        min = forward;
+                    }
+                }
+            }
+            else if(right < forward)
+            {
+                min = right;
+                if(col-1 >= 0)
+                {
+                    col -= 1;
+                }
+                else
+                {
+                    min = forward;
+                }
             }
             else
             {
-                col = col;
                 min = forward;
             }
         }
 
+        // cout << "col: " << col << endl;
         //add the next smallest pixel to the seam and add its energy to the total
         seam[row] = col;
+        // cout << "seam[" << row << "] = " << seam[row] << endl;
         totalSeamEnergy += min;
         //move to the next row and repeat
         row++;
     }
-    INFO(image);
-    INFO(start_col);
-    INFO(width);
-    INFO(height);
-    INFO(seam);
+    // INFO(image);
+    // INFO(start_col);
+    // INFO(width);
+    // INFO(height);
+    // INFO(seam);
     return totalSeamEnergy;
 }
 
@@ -370,13 +454,16 @@ int* findMinVerticalSeam(Pixel** image, int width, int height) {
     int currentSeamEnergy = 0;
     int minSeamEnergy = 0;
     int minSeamCol = 0;
-    int currentSeam[height];
+    int* currentSeam = createSeam(height);
 
     //load the seam energy for the first column
+    // cout << "current col: " << currentCol << endl;
     currentSeamEnergy = loadVerticalSeam(image, currentCol, width, height, currentSeam);
     minSeamEnergy = currentSeamEnergy;
+    // cout << "minSeamEnergy: " << minSeamEnergy << endl;
     minSeamCol = currentCol;
     currentCol++;
+    // cout << "made it?" << endl;
 
     //run through all the columns and find the seam with the lowest energy
     while(currentCol < width)
@@ -393,23 +480,29 @@ int* findMinVerticalSeam(Pixel** image, int width, int height) {
         //move to the next column and repeat
         currentCol++;
     }
+    // cout << "min col: " << minSeamCol << endl;
 
-    INFO(image);
-    INFO(width);
-    INFO(height);
-    return nullptr;
+    minSeamEnergy = loadVerticalSeam(image, minSeamCol, width, height, currentSeam);
+
+    // INFO(image);
+    // INFO(width);
+    // INFO(height);
+    return currentSeam;
 }
 
-void removeVerticalSeam(Pixel** image, int width, int height, int* verticalSeam) {
+void removeVerticalSeam(Pixel** image, int width, int height, int* verticalSeam){
     // TODO(student): remove a vertical seam
     for(int row = 0; row < height; row++)
     {
-        image[verticalSeam[row]][row] = image[verticalSeam[row]+1][row];
+        for(int col = verticalSeam[row]; col < width-1; col++)
+        {
+            image[col][row] = image[col+1][row];
+        }
     }
-    INFO(image);
-    INFO(width);
-    INFO(height);
-    INFO(verticalSeam);
+    // INFO(image);
+    // INFO(width);
+    // INFO(height);
+    // INFO(verticalSeam);
 }
 
 //Extra

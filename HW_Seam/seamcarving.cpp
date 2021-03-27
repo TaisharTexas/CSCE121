@@ -32,7 +32,6 @@ int main() {
       cout << "Error: height is a non-integer value" << endl;
       throw std::exception();
   }
-
   if(width < 1){
       cout << "Error: width must be greater than 0. You entered " << width << endl;
       throw std::exception();
@@ -41,6 +40,7 @@ int main() {
       cout << "Error: height must be greater than 0. You entered " << height << endl;
       throw std::exception();
   }
+
   cout << "Input target width and height: ";
   int targetWidth = 0;
   int targetHeight = 0;
@@ -56,6 +56,7 @@ int main() {
       cout << "Error: target height is a non-integer value" << endl;
       throw std::exception();
   }
+
   if(targetWidth < 1){
       cout << "Error: target width must be greater than 0. You entered " << targetWidth << endl;
       throw std::exception();
@@ -81,8 +82,10 @@ int main() {
       if (loadImage(filename, image1, width, height)) {
 
         // uncomment for part 2
-          while ((width - targetWidth > 0) || (height - targetHeight > 0)) {
-              if (width - targetWidth > 0) {
+          while ((width - targetWidth > 0) || (height - targetHeight > 0))
+          {
+              if (width - targetWidth > 0)
+              {
                   int* verticalSeam = findMinVerticalSeam(image1, width, height);
                   removeVerticalSeam(image1, width, height, verticalSeam);
                   deleteSeam(verticalSeam);
@@ -90,7 +93,8 @@ int main() {
               }
 
               // this is for the extra credit
-              if (height - targetHeight > 0) {
+              if (height - targetHeight > 0)
+              {
                   int* horizontalSeam = findMinHorizontalSeam(image1, width, height);
                   removeHorizontalSeam(image1, width, height, horizontalSeam);
                   deleteSeam(horizontalSeam);
