@@ -9,4 +9,6 @@ compile: g++ -std=c++17 -Wall -Wextra -pedantic -Weffc++ program_name_one.cpp pr
 run everything: ./a.out
 
 
-g++ -std=c++17 -Wall -Wextra -pedantic -Weffc++ DateClassEx.cpp
+g++ -std=c++17 -Wall -Wextra -pedantic -Weffc++ functions.cpp calculator.cpp
+
+g++ -std=c++17 -Wall -Wextra -pedantic-errors -Weffc++ -fsanitize=undefined,address *.cpp
