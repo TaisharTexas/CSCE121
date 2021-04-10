@@ -4,10 +4,10 @@
  * Texas A&M Computer Science
  *
  *	There will be RIGOROUS cheat checking on your exams!!
- *	DON'T POST ANYWHERE!! such as CHEGG, public Github, etc
+ *	DON'T POST ANYWHERE!! such as CHEGG, public Github, etc 
  *  You will be legally responsible.
  */
-
+ 
 #ifndef EARTHQUAKE
 #define EARTHQUAKE
 
@@ -53,7 +53,7 @@ class EarthQuake
 		double maxAmplitude;
 		double minAmplitude;
 		unsigned int sWaveIndex;
-
+		
 		// local coordinates to measure distance to quake
 		// automatically set to College Station by default constructor
 		double localGpsLatitude;
@@ -77,20 +77,20 @@ class EarthQuake
 		int getLengthOfQuake() const;
 		double getMaxAmplitude() const;
 		double getMinAmplitude() const;
-		unsigned int getSWaveIndex() const;
+		unsigned int getSWaveIndex() const; 
 		std::string getEarthquakeLocation() const;
 		bool getChangeInLatLong() const;
 		bool getChangeInDepth() const;
 
 		unsigned int getDistanceFromQuake() const;
 		void setDistanceFromQuake();
-
+	
 		// display output helper
 		void displayDataSegment(QuakeDataSegment*) const;
 
 		// functions for setting and loading data
-		void loadEarthquakeData(QuakeDataSegment* &dS, std::string file);
-		void resizeArray(QuakeDataSegment* &segarr);
+		void loadEarthquakeData(QuakeDataSegment* dS, std::string file);
+		void resizeArray(QuakeDataSegment*);
 
 		void setMaxAmplitude(QuakeDataSegment*);
 		void setMinAmplitude(QuakeDataSegment*);

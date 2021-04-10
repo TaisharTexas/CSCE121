@@ -12,3 +12,7 @@ run everything: ./a.out
 g++ -std=c++17 -Wall -Wextra -pedantic -Weffc++ EarthQuake.cpp Driver.cpp
 
 g++ -std=c++17 -Wall -Wextra -pedantic-errors -Weffc++ -fsanitize=undefined,address *.cpp
+
+
+
+g++ -std=c++17 -Wall -Wextra -pedantic-errors -Weffc++ -fsanitize=undefined,address Driver.cpp EarthQuake.cpp

@@ -90,7 +90,7 @@ void EarthQuake::setDistanceFromQuake()
 	distanceFromQuake = (2 * R * atan2(sqrt(a), sqrt(1-a))); // in meters
 }
 
-void EarthQuake::displayDataSegment(QuakeDataSegment * dS) const //would here need a & bc the operator uses one
+void EarthQuake::displayDataSegment(QuakeDataSegment * dS) const
 {
 	for (unsigned int i = 0; i < lengthOfQuake; i++)
 	{
@@ -102,7 +102,7 @@ void EarthQuake::displayDataSegment(QuakeDataSegment * dS) const //would here ne
 }
 
 // functions for setting and loading data
-void EarthQuake::loadEarthquakeData(QuakeDataSegment* dataSegment, string file) //does file need a refernce and does data segment
+void EarthQuake::loadEarthquakeData(QuakeDataSegment* &dataSegment, string file)
 {
 
 		//yoinked this file type checker from my HW4 parallel_tracks.cpp program
@@ -120,29 +120,45 @@ void EarthQuake::loadEarthquakeData(QuakeDataSegment* dataSegment, string file) 
 		double depthLoc;
 
 
-		ifs >> amp;
-		ifs >> latLoc;
-		ifs >> longiLoc;
-		ifs >> depthLoc;
+		// ifs >> amp;
+		// ifs >> latLoc;
+		// ifs >> longiLoc;
+		// ifs >> depthLoc;
+		//
+		// cout << "made it past first line ifs" << endl;
+		//
+		// dataSegment[i].setWaveAmplitude(amp);
+		// cout << "made it past first set wave" << endl;
+		// dataSegment[i].setLatitude(latLoc);
+		// dataSegment[i].setLongitude(longiLoc);
+		// dataSegment[i].setDepth(depthLoc);
+		// EarthQuake::lengthOfQuake = i+1; //now equals 1 b/c i equals 0
+		// i++;
 
-		dataSegment[i].setWaveAmplitude(amp);
-		dataSegment[i].setLatitude(latLoc);
-		dataSegment[i].setLongitude(longiLoc);
-		dataSegment[i].setDepth(depthLoc);
-		EarthQuake::lengthOfQuake = i+1; //now equals 1 b/c i equals 0
-		i++;
+		// cout << "made it to while loop" << endl;
 
 
 		while(!ifs.eof())
 		{
+				// cout << i << " loop" << endl;
+				// cout << "length: " << lengthOfQuake << endl;
+
+				// cout << dataSegment << endl;
+
 				EarthQuake::resizeArray(dataSegment);
 
+				// cout << dataSegment << endl;
+				//
+				// cout << "length: " << lengthOfQuake << endl;
+
 				ifs >> amp;
+				// cout << "amp: " << amp << endl;
 				ifs >> latLoc;
 				ifs >> longiLoc;
 				ifs >> depthLoc;
 
 				dataSegment[i].setWaveAmplitude(amp);
+				// cout << "made it past second set wave" << endl;
 				dataSegment[i].setLatitude(latLoc);
 				dataSegment[i].setLongitude(longiLoc);
 				dataSegment[i].setDepth(depthLoc);
@@ -153,22 +169,29 @@ void EarthQuake::loadEarthquakeData(QuakeDataSegment* dataSegment, string file) 
 
 }
 
-void EarthQuake::resizeArray(QuakeDataSegment& segarr) //my other resize function needed a &, why not here?
+void EarthQuake::resizeArray(QuakeDataSegment* &segarr)
 {
 
 		//mostly based this resizing bit off of my lab 6 push function code
 		int newSize = lengthOfQuake+1;
+		// cout << "lengthOfQuake: " << lengthOfQuake << endl;
+		// cout << "newSize: " << newSize << endl;
 		QuakeDataSegment* newArray = new QuakeDataSegment[newSize] {};
+
+		// cout << newArray << endl;
 
 		for(int i = newSize-2; i >= 0; i--)
 		{
+				// cout << "loop# " << i << endl;
 				newArray[i].setWaveAmplitude(segarr[i].getWaveAmplitude());
 				newArray[i].setLatitude(segarr[i].getLatitude());
 				newArray[i].setLongitude(segarr[i].getLongitude());
 				newArray[i].setDepth(segarr[i].getDepth());
 		}
-		delete[] segarr;
+		if(segarr != nullptr){ delete[] segarr; }
+
 		segarr = newArray;
+		// cout << "segarr at end of resize " << segarr << endl;
 }
 
 

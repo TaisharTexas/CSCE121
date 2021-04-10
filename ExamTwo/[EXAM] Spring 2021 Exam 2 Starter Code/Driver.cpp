@@ -4,7 +4,7 @@
  * Texas A&M Computer Science
  *
  *	There will be RIGOROUS cheat checking on your exams!!
- *	DON'T POST ANYWHERE!! such as CHEGG, public Github, etc
+ *	DON'T POST ANYWHERE!! such as CHEGG, public Github, etc 
  *  You will be legally responsible.
  */
 
@@ -29,7 +29,6 @@ int main()
 	/* load data into array */
 	//bigTest.displayDataSegment(dataSegment);
 
-	// cout << "BEFORE" << endl;
 	try
 	{
 		bigTest.loadEarthquakeData(dataSegment, "gooddata1.txt"); // handles data length
@@ -42,7 +41,7 @@ int main()
 
 	//bigTest.loadEarthquakeData(dataSegment, "gooddata2.csv");
 	//bigTest.displayDataSegment(dataSegment);
-
+	
 	/* now SET all data from EarthQuake Data */
 	bigTest.setMaxAmplitude(dataSegment);
 	bigTest.setMinAmplitude(dataSegment);
@@ -54,9 +53,9 @@ int main()
 
 	/* use overloaded operator to output EarthQuake Data */
 	cout << bigTest << endl; // should display ALL results
-
+	
 	/* free any memory pointed to by the data array */
 	delete[] dataSegment;
-
+	
 	return 0;
 }
