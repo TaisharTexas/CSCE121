@@ -90,7 +90,7 @@ void EarthQuake::setDistanceFromQuake()
 	distanceFromQuake = (2 * R * atan2(sqrt(a), sqrt(1-a))); // in meters
 }
 
-void EarthQuake::displayDataSegment(QuakeDataSegment * dS) const
+void EarthQuake::displayDataSegment(QuakeDataSegment * dS) const //would here need a & bc the operator uses one
 {
 	for (unsigned int i = 0; i < lengthOfQuake; i++)
 	{
@@ -102,7 +102,7 @@ void EarthQuake::displayDataSegment(QuakeDataSegment * dS) const
 }
 
 // functions for setting and loading data
-void EarthQuake::loadEarthquakeData(QuakeDataSegment* dataSegment, string file)
+void EarthQuake::loadEarthquakeData(QuakeDataSegment* dataSegment, string file) //does file need a refernce and does data segment
 {
 
 		//yoinked this file type checker from my HW4 parallel_tracks.cpp program
@@ -153,7 +153,7 @@ void EarthQuake::loadEarthquakeData(QuakeDataSegment* dataSegment, string file)
 
 }
 
-void EarthQuake::resizeArray(QuakeDataSegment* segarr)
+void EarthQuake::resizeArray(QuakeDataSegment& segarr) //my other resize function needed a &, why not here?
 {
 
 		//mostly based this resizing bit off of my lab 6 push function code
@@ -203,7 +203,7 @@ void EarthQuake::setSWaveIndex(QuakeDataSegment* segarr)
 		unsigned int theSWaveIndex;
 		for(unsigned int i = 1; i < lengthOfQuake; i++)
 		{
-				if(segarr[i].getWaveAmplitude() > (segarr[i-1].getWaveAmplitude() * 4))
+				if(segarr[i].getWaveAmplitude() >= (segarr[i-1].getWaveAmplitude() * 4))
 				{
 						theSWaveIndex = i;
 				}
