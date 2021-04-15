@@ -15,4 +15,4 @@ g++ -std=c++17 -Wall -Wextra -pedantic-errors -Weffc++ -fsanitize=undefined,addr
 
 
 
-g++ -std=c++17 -Wall -Wextra -pedantic-errors -Weffc++ -fsanitize=undefined,address Driver.cpp EarthQuake.cpp
+g++ -std=c++17 -Wall -Wextra -pedantic -g -fsanitize=address,undefined Network.cpp User.cpp Post.cpp Tag.cpp Cppeers-main.cpp
