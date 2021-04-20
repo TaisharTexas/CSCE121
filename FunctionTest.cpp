@@ -1,51 +1,67 @@
 #include <iostream>
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <iomanip>
-#include <stdexcept>
-#include <limits>
-#include <cctype>		// Contains isdigit, isalpha, isupper, etc.
+using namespace std;
 
-using std::cin, std::cout, std::endl, std::string, std::sort, std::getline;
-using std::invalid_argument;
+class IntNode {
+   public:
+      IntNode(int value = -1, IntNode* nextLoc = nullptr);
+      void InsertAfter(IntNode* nodeLoc);
+      int GetValue();
+      IntNode* GetNext();
+      void PrintData();
+   private:
+      int value;
+      IntNode* nextIntNodePtr;
+};
 
-int countVowels(const string (&sentences)[], int numSentences);
-
-int main()
-{
-    int nSentences;
-    string* theSentences;
-
-    cout << "enter number of sentences: ";
-    cin >> nSentences;
-    cin.ignore(10000, '\n');
-    theSentences = new string[nSentences];
-    cout << endl;
-    for(int i = 0; i < nSentences; i++)
-    {
-        cout << "enter sentence " << i+1 << ": ";
-        getline(cin, theSentences[i]);
-        // cout << "> " << theSentences[i] << endl;
-
-    }
-
-    cout << "There are " << countVowels(theSentences, nSentences)
-         << " vowels in the " << nSentences << " given sentences." << endl;
-
-
-    return 0;
+IntNode::IntNode(int val, IntNode* nextLoc) {
+   this->value = val;
+   this->nextIntNodePtr = nextLoc;
 }
 
-int countVowels(const string (&sentences)[], int numSentences)
-{
-    int numVowels = 0;
+void IntNode::InsertAfter(IntNode* nodeLoc) {
+   IntNode* tmpNext = nullptr;
 
-    for(int i = 0; i < numSentences; i++)
-    {
-        string tempSentence = sentences[i];
-        for(int k = 0; k < )
-    }
+   tmpNext = this->nextIntNodePtr;
+   this->nextIntNodePtr = nodeLoc;
+   nodeLoc->nextIntNodePtr = tmpNext;
+}
 
-    return numVowels;
+IntNode* IntNode::GetNext() {
+   return this->nextIntNodePtr;
+}
+
+void IntNode::PrintData() {
+   cout << this->value << endl;
+}
+
+int main() {
+   IntNode* headObj = nullptr;
+   IntNode* node1 = nullptr;
+   IntNode* node2 = nullptr;
+   IntNode* node3 = nullptr;
+   IntNode* node4 = nullptr;
+   IntNode* currObj = nullptr;
+
+   headObj = new IntNode(-1);
+
+   node1 = new IntNode(1);
+   headObj->InsertAfter(node1);
+
+   node2 = new IntNode(2);
+   node1->InsertAfter(node2);
+
+   node3 = new IntNode(3);
+   node1->InsertAfter(node3);
+
+   node4 = new IntNode(4);
+   node2->InsertAfter(node4);
+
+   currObj = headObj;
+
+   while (currObj != nullptr) {
+      currObj->PrintData();
+      currObj = currObj->GetNext();
+   }
+
+   return 0;
 }

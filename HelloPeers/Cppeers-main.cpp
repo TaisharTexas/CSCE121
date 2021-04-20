@@ -35,15 +35,40 @@ void processLoad(Network& cppeers) {
 }
 
 void processPostsByUser(Network& cppeers) {
-  // TODO(student): implement
+    // TODO(student): implement
+    string username;
+    vector<Post*> usersPosts;
+    cout << "Enter username: ";
+    cin >> username;
+    cout << endl;
+    usersPosts = cppeers.getPostsByUser(username);
+    for(int i = 0; i < usersPosts.size(); i++)
+    {
+        cout << usersPosts.at(i)->getPostText() << endl;
+    }
 }
 
 void processPostsWithHashtags(Network& cppeers) {
-  // TODO(student): implement
+    // TODO(student): implement
+    string hashtag;
+    vector<Post*> taggedPosts;
+    cout << "Enter tagname: ";
+    cin >> hashtag;
+    cout << endl;
+    taggedPosts = cppeers.getPostsWithTag(hashtag);
+    for(int i = 0; i < taggedPosts.size(); i++)
+    {
+        cout << taggedPosts.at(i)->getPostText() << endl;
+    }
 }
 
 void processMostPopularHashtag(Network& cppeers) {
-  // TODO(student): implement
+    // TODO(student): implement
+    vector<string> mostPopTag = cppeers.getMostPopularHashtag();
+    for(int i = 0; i < mostPopTag.size(); i++)
+    {
+        cout << mostPopTag.at(i) << endl;
+    }
 }
 
 int main() {

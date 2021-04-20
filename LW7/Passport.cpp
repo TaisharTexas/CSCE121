@@ -33,7 +33,7 @@ void Passport::addParkVisited(StatePark* park) {
 	INFO(park)
 	// TODO(student): implement function
 	parksVisited.push_back(park);
-	StatePark::addCamper(Passport)
+	park->addCamper(this);
 	return;
 }
 

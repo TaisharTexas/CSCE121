@@ -9,7 +9,7 @@
 class Database {
 	std::vector<StatePark*> stateParkList;
 	std::vector<Passport*> camperList;
-	
+
 public:
 	Database();
 	~Database();

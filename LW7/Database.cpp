@@ -12,42 +12,74 @@ Database::Database() : stateParkList{}, camperList{} {}
 // Destructor
 // DO NOT CHANGE, ALREADY IMPLEMENTED
 Database::~Database() {
-	for (unsigned int i = 0; i < stateParkList.size(); ++i) {
-		delete stateParkList.at(i);
-	}
+		for (unsigned int i = 0; i < stateParkList.size(); ++i) {
+				delete stateParkList.at(i);
+		}
 
-	for (unsigned int i = 0; i < camperList.size(); ++i) {
-		delete camperList.at(i);
-	}
+		for (unsigned int i = 0; i < camperList.size(); ++i) {
+				delete camperList.at(i);
+		}
 }
 
 // Mandatory
 // Dynamically creates a new state park and adds it to stateParkList
 void Database::addStatePark(string parkName, double entranceFee, double trailMiles) {
-	INFO(parkName)
-	INFO(entranceFee)
-	INFO(trailMiles)
-	// TODO(student): implement function
-	return;
+		INFO(parkName)
+		INFO(entranceFee)
+		INFO(trailMiles)
+		// TODO(student): implement function
+		StatePark* thePark = new StatePark(parkName, entranceFee, trailMiles);
+		stateParkList.push_back(thePark);
+		return;
 }
 
 // Mandatory
 // Dynamically creates a new passport and adds it to camperList
 void Database::addPassport(string camperName, bool isJuniorPassport) {
-	INFO(camperName)
-	INFO(isJuniorPassport)
-	// TODO(student): implement function
-	return;
+		INFO(camperName)
+		INFO(isJuniorPassport)
+		// TODO(student): implement function
+		Passport* thePassport = new Passport(camperName, isJuniorPassport);
+		camperList.push_back(thePassport);
+		return;
 }
 
 // Mandatory
 // Searches for a passport and state park whose name matches the given parameters and
 // adds the park to the passport
 void Database::addParkToPassport(string camperName, string parkName) {
-	INFO(camperName)
-	INFO(parkName)
-	// TODO(student): implement function
-	return;
+		INFO(camperName)
+		INFO(parkName)
+		// TODO(student): implement function
+		bool foundPark = false;
+		int parkIndex = -1;
+		bool foundCamper = false;
+		int camperIndex = -1;
+		for(unsigned long i = 0; i < stateParkList.size(); i++)
+		{
+				if(stateParkList.at(i)->getParkName() == parkName)
+				{
+						foundPark = true;
+						parkIndex = i;
+						break;
+				}
+		}
+		for(unsigned long j = 0; j < camperList.size(); j++)
+		{
+				if(camperList.at(j)->getCamperName() == camperName)
+				{
+						foundCamper = true;
+						camperIndex = j;
+						break;
+				}
+		}
+
+		if(foundCamper && foundPark)
+		{
+				camperList.at(camperIndex)->addParkVisited(stateParkList.at(parkIndex));
+		}
+
+		return;
 }
 
 // Option A
