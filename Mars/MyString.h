@@ -1,27 +1,39 @@
-
 #include <iostream>
 #include <fstream>
 #include <tuple>
 #include <limits>
 
-class MyString{
-    private:
-        int size;
-        int capacity;
-        char* theString[];
-    public:
-        MyString(); //default constructor
-        // need copy constructor
-        // need constructor from cstring
-        ~MyString();
+using std::cout, std::endl, std::cin;
+using std::istream, std::ostream;
 
-        int size(){ return size; } // number of elements in array (length)
-        int capacity(){ return capacity; } // the storage reserved for the string in bytes
-        bool empty();// checks if the array is empty
-        void clear(); // erases all values from the array and returns the capacity and size to zero
-        void resize(size_t n); // resizes the array to capacity n
-        char* at(int i); // gives the element at index i
-        size_t find(const MyString& str, size_t pos); 
+class MyString
+{
+public:
+    MyString(); //defualt constructor
+    MyString(const MyString &str); //copy constructor
+    MyString(const char* s);
+    ~MyString(); //destructor
 
+    void resize();
+    int capacity(){ return theCapacity; };
+    int size() { return theSize; };
+    char* data();
+    bool empty();
+    const char& front() const;
+    const char& at(size_t n) const;
+    void clear();
 
-}
+    friend ostream& operator<<(ostream& os, const MyString& str);
+    // friend MyString& operator=(const MyString& str);
+    // friend MyString& operator+=(const MyString& str);
+
+    size_t find(const MyString& str, size_t pos = 0) const;
+
+    // friend bool& operator==(const MyString& lhs, const MyString& rhs);
+    friend MyString& operator+(const MyString& lhs, const MyString& rhs);
+
+private:
+    int theSize;
+    int theCapacity;
+    char* theString;
+};
