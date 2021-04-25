@@ -10,36 +10,31 @@
  * capacity, and list of sections.
  */
 class CourseOfferings {
+  private:
     /**
      * Offered course.
      */
     Course course;
-
     /**
      * Offered course's academic year.
      */
     unsigned int year;
-
     /**
      * Offered course's academic semester.
      */
     char semester;
-
     /**
      * Number of offered course sections.
      */
     size_t nbSections;
-
     /**
      * Offered course's capacity.
      */
     size_t capacity;
-
     /**
      * List of offered course sections.
      */
     Section* sectionList;
-
     /**
      * Increases array capacity for storing list of sections.
      */
@@ -47,10 +42,8 @@ class CourseOfferings {
 
   public:
     /* TODO: Declare copy constructor here. */
-    CourseOfferings(const CourseOfferings& origObj);
-
+    CourseOfferings(const CourseOfferings& co);
     /* TODO: Declare copy assignment operator function here. */
-    CourseOfferings& operator=(const CourseOfferings& objToCopy);
 
     /* TODO: Declare destructor here. */
     ~CourseOfferings();
@@ -58,8 +51,7 @@ class CourseOfferings {
     /**
      * Default constructor
      */
-    CourseOfferings()
-        : course(), year(0), semester('X'), nbSections(0), capacity(0), sectionList(nullptr) {}
+    CourseOfferings() : course(), year(0), semester('X'), nbSections(0), capacity(0), sectionList(nullptr) {}
 
     /**
      * Full construtor
@@ -113,6 +105,7 @@ class CourseOfferings {
 };
 
 /* TODO: Declare CourseOfferings insertion operator overload function here. */
+friend ostream& operator<<(ostream& os, const CourseOfferings& str);
 
 /**
  * Equality operator overload function for CourseOfferings class.

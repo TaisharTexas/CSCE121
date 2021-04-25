@@ -9,7 +9,7 @@ compile: g++ -std=c++17 -Wall -Wextra -pedantic -Weffc++ program_name_one.cpp pr
 run everything: ./a.out
 
 
-g++ -std=c++17 -Wall -Wextra -pedantic -Weffc++ FunctionTest.cpp
+g++ -std=c++17 -Wall -Wextra -pedantic -Weffc++ Main.cpp MyString.cpp
 
 g++ -std=c++17 -Wall -Wextra -pedantic-errors -Weffc++ -fsanitize=undefined,address *.cpp
 
@@ -21,4 +21,4 @@ g++ -std=c++17 -Wall -Wextra -pedantic -g -fsanitize=address,undefined Network.c
 
 g++ -std=c++17 -Wall -Wextra -pedantic-errors -Weffc++ -Wno-unused-parameter -fsanitize=undefined,address RoverTest.cpp Rover.cpp MyString.cpp
 
-g++ -std=c++17 -Wall -Wextra -pedantic-errors -Weffc++ -Wno-unused-parameter -fsanitize=undefined,address Main.cpp MyString.cpp
+g++ -std=c++17 -Wall -Wextra -pedantic-errors -Weffc++ -Wno-unused-parameter -fsanitize=undefined,address MyString.cpp

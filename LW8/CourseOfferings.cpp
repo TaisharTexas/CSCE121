@@ -7,77 +7,46 @@
 using std::cout, std::endl, std::string, std::ostream;
 
 /* TODO: Define copy constructor here. */
-CourseOfferings::CourseOfferings(const CourseOfferings& origObj)
+CourseOfferings::CourseOfferings(const CourseOfferings& co) : year(co.year),
+																															semester(co.semester),
+																															nbSections(co.nbSections),
+																															capacity(co.capacity),
+																															course(co.course)
+
 {
-	cout << "copy constructor called" << endl;
-	//What the book example suggested
-	year = new int;
-	semester = new char;
-	nbSections = new size_t;
-	capacity = new size_t;
-	course = new Course;
-	sectionList = new sectionList;
-
-	*year = *(origObj.year);
-	*semester = *(origObj.semester);
-	*nbSections = *(origObj.nbSections);
-	*capacity = *(origObj.capacity);
-	*course = *(origObj.course);
-	*sectionList = *(origObj.sectionList);
-
-	//What I had to do to make the DIY book example work
-	// year = origObj.year;
-	// semester = origObj.semester;
-	// nbSections = origObj.nbSections;
-	// capacity = origObj.capacity;
-	// course = origObj.course;
-	// sectionList = origObj.sectionList;
 
 }
 
 /* TODO: Define copy assignment operator function here. */
-CourseOfferings& CourseOfferings::operator=(const CourseOfferings& objToCopy)
-{
-	cout << "assignment operator called" << endl;
-	if(this != &objToCopy)
-	{
-		delete course;
-		delete year;
-		delete semester;
-		delete nbSections;
-		delete capacity;
-		delete sectionList;
-		course = new Course;
-		*course = *(objToCopy.course);
-		year = new int;
-		*year = *(objToCopy.year);
-		semester = new char;
-		*semester = *(objToCopy.semester);
-		nbSections = new size_t;
-		*nbSections = *(objToCopy.nbSections);
-		capacity = new size_t;
-		*capacity = *(objToCopy.capacity);
-		sectionList = new sectionList;
-		*sectionList = *(objToCopy.sectionList);
-
-	}
-	return *this;
-}
 
 /* TODO: Define destructor here. */
 CourseOfferings::~CourseOfferings()
 {
-	cout << "destructor called" << endl;
-	delete[] sectionList;
+		delete[] sectionList;
 }
 
-/* TODO: Define CourseOfferings extractor operator overload here. */ 
+/* TODO: Define CourseOfferings extractor operator overload here. */
+ostream& operator<<(ostream& os, const CourseOfferings& str)
+{
+    os << str.theString;
+    return os;
+}
 
-CourseOfferings::CourseOfferings(Course course, unsigned int year, char semester) 
-	: course(course), year(year), semester(semester), nbSections(0), capacity(0), sectionList(nullptr) { }
 
+//default constructor
+CourseOfferings::CourseOfferings(Course course, unsigned int year, char semester)
+		: course(course),
+			year(year),
+			semester(semester),
+			nbSections(0),
+			capacity(0),
+			sectionList(nullptr)
+{ }
+
+//full constructor
 CourseOfferings::CourseOfferings(unsigned int year, char semester, const CourseOfferings& other)
-	: CourseOfferings(other) {
+		: CourseOfferings(other)
+{
 	this->year = year;
 	this->semester = semester;
 }
