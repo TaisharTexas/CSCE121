@@ -44,6 +44,7 @@ class CourseOfferings {
     /* TODO: Declare copy constructor here. */
     CourseOfferings(const CourseOfferings& co);
     /* TODO: Declare copy assignment operator function here. */
+    CourseOfferings& operator=(const CourseOfferings& str);
 
     /* TODO: Declare destructor here. */
     ~CourseOfferings();
@@ -105,7 +106,7 @@ class CourseOfferings {
 };
 
 /* TODO: Declare CourseOfferings insertion operator overload function here. */
-friend ostream& operator<<(ostream& os, const CourseOfferings& str);
+std::ostream& operator<<(std::ostream& os, const CourseOfferings& co);
 
 /**
  * Equality operator overload function for CourseOfferings class.

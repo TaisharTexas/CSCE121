@@ -7,17 +7,39 @@
 using std::cout, std::endl, std::string, std::ostream;
 
 /* TODO: Define copy constructor here. */
-CourseOfferings::CourseOfferings(const CourseOfferings& co) : year(co.year),
-																															semester(co.semester),
-																															nbSections(co.nbSections),
-																															capacity(co.capacity),
-																															course(co.course)
+CourseOfferings::CourseOfferings(const CourseOfferings& co)
+		: course(co.course),
+			year(co.year),
+			semester(co.semester),
+			nbSections(co.nbSections),
+			capacity(co.capacity),
+			sectionList(nullptr)
 
 {
-
+		sectionList = new Section[nbSections];
+		for(unsigned int i = 0; i < nbSections; i++)
+		{
+				sectionList[i] = co.sectionList[i];
+		}
 }
 
 /* TODO: Define copy assignment operator function here. */
+CourseOfferings& CourseOfferings::operator=(const CourseOfferings& co)
+{
+		course = co.course;
+		year = co.year;
+		semester = co.semester;
+		nbSections = co.nbSections;
+		capacity = co.capacity;
+		delete[] sectionList;
+		sectionList = new Section[nbSections];
+		for(size_t i = 0; i < nbSections; i++)
+		{
+				sectionList[i] = co.sectionList[i];
+		}
+
+		return *this;
+}
 
 /* TODO: Define destructor here. */
 CourseOfferings::~CourseOfferings()
@@ -26,9 +48,12 @@ CourseOfferings::~CourseOfferings()
 }
 
 /* TODO: Define CourseOfferings extractor operator overload here. */
-ostream& operator<<(ostream& os, const CourseOfferings& str)
+std::ostream& operator<<(std::ostream& os, const CourseOfferings& co)
 {
-    os << str.theString;
+    os << "Year: " << co.getYear() << " Semester: " << co.getSemester() << " Course id: " << co.getCourse().getId() << endl;
+		os << "Course title: " << co.getCourse().getTitle() << endl;
+		os << "Sections:" << endl;
+		// os << getSectionList();
     return os;
 }
 
