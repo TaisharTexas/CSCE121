@@ -11,15 +11,26 @@ void MyList::add(string name, int score) {
     _tailPtr->setNext(newNode);
     //reassign the last node pointer to the new node
     _tailPtr = newNode;
+    _size++;
 
 }
 
 void MyList::clear() {
     // TODO
+    if(_headPtr != nullptr)
+    {
+        while(_headPtr->next() != nullptr)
+        {
+            MyNode* tempPtr = _headPtr->next();
+            delete _headPtr;
+            _headPtr = tempPtr;
+        }
+        delete _tailPtr;
+        _size = 0;
+    }
 }
 
 bool MyList::remove(string name) {
-    // TODO
     return false;
 }
 
