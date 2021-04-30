@@ -7,27 +7,36 @@ void MyList::add(string name, int score) {
     // TODO
     //made new node with inputted vales
     MyNode* newNode = new MyNode(name, score);
-    //assign the old last node's next node ptr to the new node
-    _tailPtr->setNext(newNode);
-    //reassign the last node pointer to the new node
-    _tailPtr = newNode;
+
+    if(_headPtr == nullptr)
+    {
+        _headPtr = newNode;
+        _tailPtr = newNode;
+    }
+    else
+    {
+        //assign the old last node's next node ptr to the new node
+        _tailPtr->setNext(newNode);
+        //reassign the last node pointer to the new node
+        _tailPtr = newNode;
+    }
     _size++;
+
 
 }
 
 void MyList::clear() {
     // TODO
-    if(_headPtr != nullptr)
-    {
-        while(_headPtr->next() != nullptr)
-        {
-            MyNode* tempPtr = _headPtr->next();
-            delete _headPtr;
-            _headPtr = tempPtr;
-        }
-        delete _tailPtr;
-        _size = 0;
-    }
+
+      while(_headPtr != nullptr)
+      {
+          MyNode* tempPtr = _headPtr->next();
+          delete _headPtr;
+          _headPtr = tempPtr;
+      }
+      _tailPtr = nullptr;
+      _size = 0;
+
 }
 
 bool MyList::remove(string name) {
