@@ -1,67 +1,40 @@
+// "New" means new compared to previous level
+
 #include <iostream>
+#include <vector>
 using namespace std;
 
-class IntNode {
-   public:
-      IntNode(int value = -1, IntNode* nextLoc = nullptr);
-      void InsertAfter(IntNode* nodeLoc);
-      int GetValue();
-      IntNode* GetNext();
-      void PrintData();
-   private:
-      int value;
-      IntNode* nextIntNodePtr;
-};
+void ScrambleNums(vector<int> remainNums, vector<int> scramNums) {
+   vector<int> tmpRemainNums;
+   int tmpRemovedNum;
+   int i;
 
-IntNode::IntNode(int val, IntNode* nextLoc) {
-   this->value = val;
-   this->nextIntNodePtr = nextLoc;
-}
-
-void IntNode::InsertAfter(IntNode* nodeLoc) {
-   IntNode* tmpNext = nullptr;
-
-   tmpNext = this->nextIntNodePtr;
-   this->nextIntNodePtr = nodeLoc;
-   nodeLoc->nextIntNodePtr = tmpNext;
-}
-
-IntNode* IntNode::GetNext() {
-   return this->nextIntNodePtr;
-}
-
-void IntNode::PrintData() {
-   cout << this->value << endl;
+   if (remainNums.size() == 0) {
+      cout << scramNums.at(0);
+      cout << scramNums.at(1);
+      cout << scramNums.at(2) << endl;
+   }
+   else {
+      for (i = remainNums.size() - 1; i >= 0; --i) { // New: This line changed
+         tmpRemainNums = remainNums; // Make a copy.
+         tmpRemovedNum = tmpRemainNums.at(i);
+         tmpRemainNums.erase(tmpRemainNums.begin() + i); // Remove element at index i
+         scramNums.push_back(tmpRemovedNum);
+         ScrambleNums(tmpRemainNums, scramNums);
+         scramNums.erase(scramNums.end() - 1); // Remove last element
+      }
+   }
 }
 
 int main() {
-   IntNode* headObj = nullptr;
-   IntNode* node1 = nullptr;
-   IntNode* node2 = nullptr;
-   IntNode* node3 = nullptr;
-   IntNode* node4 = nullptr;
-   IntNode* currObj = nullptr;
+   vector<int> numsToScramble;
+   vector<int> resultNums;
 
-   headObj = new IntNode(-1);
+   numsToScramble.push_back(5);
+   numsToScramble.push_back(1);
+   numsToScramble.push_back(8);
 
-   node1 = new IntNode(1);
-   headObj->InsertAfter(node1);
-
-   node2 = new IntNode(2);
-   node1->InsertAfter(node2);
-
-   node3 = new IntNode(3);
-   node1->InsertAfter(node3);
-
-   node4 = new IntNode(4);
-   node2->InsertAfter(node4);
-
-   currObj = headObj;
-
-   while (currObj != nullptr) {
-      currObj->PrintData();
-      currObj = currObj->GetNext();
-   }
+   ScrambleNums(numsToScramble, resultNums);
 
    return 0;
 }
